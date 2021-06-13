@@ -40,7 +40,12 @@ public class AddSignature {
   // MAIN
   //================================================================================
   public static void main(String[] args) throws Exception {
-    PrivateKey privateKey  = getPrivateKey(keyStoreName, keyStorePassword, keyStoreType, keyAlias);
+
+    //GET PRIVATE KEY
+    KeyStore.PrivateKeyEntry keyPair = getKeyPair(keyStoreName, keyStorePassword, keyStoreType, keyAlias);
+    PrivateKey               privateKey  = keyPair.getPrivateKey();
+
+    //SIGN DOCUMENT
     Document      document = readXMLFromFile(fileXMLInput);
     signDocument (document, privateKey, "Person", "data", DigestMethod.SHA1, SignatureMethod.RSA_SHA1);
     saveXMLToFile(document, fileXMLSigned);
@@ -106,9 +111,9 @@ public class AddSignature {
   }
 
   //================================================================================
-  // GET PRIVATE KEY
+  // GET KEY PAIR
   //================================================================================
-  private static PrivateKey getPrivateKey (
+  private static KeyStore.PrivateKeyEntry getKeyPair(
     String keyStoreName,        //"src/main/resources/ClientKeyStore.jks"
     String keyStorePassword,    //"mypassword";
     String keyStoreType,        //"JKS"
@@ -121,10 +126,9 @@ public class AddSignature {
                                 keyStore.load(new FileInputStream(keyStoreName), password);
     KeyStore.PasswordProtection keyPassword = new KeyStore.PasswordProtection(   password);
     KeyStore.PrivateKeyEntry    keyPair = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keyAlias,keyPassword);
-    PrivateKey                  privateKey  = keyPair.getPrivateKey();
 
-    //RETURN PRIVATE KEY
-    return privateKey;
+    //RETURN KEY PAIR
+    return keyPair;
 
   }
 
