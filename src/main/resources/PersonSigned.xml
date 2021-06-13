@@ -1,16 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Envelope>
-
-  <Header>
-    This element is not being signed
-  </Header>
-
-  <Person id="data">
-    <name> John </name>
-    <age>  20   </age>
-  </Person>
-
-<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#data"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>TulJwb267aCI83eWgsHIOHwix9I=</DigestValue></Reference></SignedInfo><SignatureValue>dt8qELzXb9YbNwJ5MdvuOyFfeqjwUTqaGjqJMQK8iQonCrNzwr9jxfL2Ci+kUJLPVqirmQSwPT5L
-ptzd/pR3EBRzRWN9IhmMYNT7OPpJAQMC2nOYsCBT1k4yaaxR2Zcwa4afpYbrAnV+P5f/8aULk4rg
-Ld/wJgpZUUPLJtc0uSkwQSWgmDj2yCGnw5thVFWdaRH1M2nubsO7N5x9h6L5m4WX25IqQfyA0Xpc
-iT+SPGHCw77i3P0yId+9ZPwdRL3qmXwKJy7+MT40bB8uLrl/Wp7jF2/qWYakmnlgG98g8hEAjJDS
-XNGkAbSn+QYrbUDORLs4QvUMt75RKvXSG8mEdA==</SignatureValue></Signature></Envelope>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Person Id="data">
+  <name> John </name>
+  <age>  20   </age>
+<Signature xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/><Reference URI="#data"><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/><DigestValue>NFL58eD6HKz/NQWtX+/7Mu+cUY4=</DigestValue></Reference></SignedInfo><SignatureValue>aEuSv6WyWRoYWKB0zDaLU05CVTE1LVsbXQx9emRe6x7D8+mRSmiQIGQhQo8R//usp5Jd3nW6v9Ip&#13;
+3xTb20blbpAyRogv4E6OVu3xNNTfI+NLYw2oIWqlzHP/fLD9D/jixbnzLTGX8HVQ93zyY/Y8OMO9&#13;
+5vsqlbO6I7RIuAVitBkELPMFqyWjOjzJXb1JEzh7OM1acBoIztfSIQfC6YDpDV/Lt0PNkBxcoL0V&#13;
+MivVlZj8xE9ka+7/qwVhtRF/Fs9g6idh/9trcquiE4S+VGv03MUUxn/aeXw7Npx1//sqeOn/qwzi&#13;
+tFfyqTLL7VI+V3lD6l+3BZWwf3sAeQArAyAwhw==</SignatureValue></Signature></Person>

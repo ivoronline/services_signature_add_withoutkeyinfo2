@@ -1,6 +1,7 @@
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-import javax.xml.crypto.dsig.CanonicalizationMethod;
+import javax.xml.crypto.dsig.*;
 import javax.xml.crypto.dsig.DigestMethod;
 import javax.xml.crypto.dsig.Reference;
 import javax.xml.crypto.dsig.SignatureMethod;
@@ -41,13 +42,14 @@ public class AddSignature {
   public static void main(String[] args) throws Exception {
     PrivateKey privateKey  = getPrivateKey(keyStoreName, keyStorePassword, keyStoreType, keyAlias);
     Document      document = readXMLFromFile(fileXMLInput);
-    signDocument (document, privateKey, "#data", DigestMethod.SHA1, SignatureMethod.RSA_SHA1);
+    signDocument (document, privateKey, "Person", "data", DigestMethod.SHA1, SignatureMethod.RSA_SHA1);
     saveXMLToFile(document, fileXMLSigned);
   }
 
   //================================================================================
   // READ XML FROM FILE
   //================================================================================
+  // Document document = readXMLFromFile(fileXMLInput);
   private static Document readXMLFromFile(String fileName) throws Exception {
     DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
     documentFactory.setNamespaceAware(true);
@@ -68,10 +70,12 @@ public class AddSignature {
   //================================================================================
   // SIGN DOCUMENT
   //================================================================================
+  // <Person Id="data">
   public static void signDocument(
     Document   document,        //RETURN VALUE
     PrivateKey privateKey,
-    String     referenceURI,    //"#data"
+    String     elementName,     //"Person"      FIX
+    String     referenceURI,    //"data"
     String     digestMethod,    //DigestMethod.SHA1
     String     signatureMethod  //SignatureMethod.RSA_SHA1
   ) throws Exception {
@@ -79,7 +83,7 @@ public class AddSignature {
     //CREATE REFERENCE
     XMLSignatureFactory factory   = XMLSignatureFactory.getInstance("DOM");
     Reference           reference = factory.newReference(
-      referenceURI,
+      "#" + referenceURI,
       factory.newDigestMethod(digestMethod, null),
       Collections.singletonList(factory.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)),
       null,
@@ -93,7 +97,9 @@ public class AddSignature {
     );
 
     //SIGN DOCUMENT
+    Element        element        = (Element) document.getElementsByTagName(elementName).item(0);  //FIX
     DOMSignContext domSignContext = new DOMSignContext(privateKey, document.getDocumentElement());
+                   domSignContext.setIdAttributeNS(element, null, "Id");                           //FIX
     XMLSignature   signature      = factory.newXMLSignature(signedInfo, null);
                    signature.sign(domSignContext);
 
@@ -110,11 +116,11 @@ public class AddSignature {
   ) throws Exception {
 
     //GET PRIVATE KEY
-    char[]                      password    = keyStorePassword.toCharArray();    //for KeyStore & Private Key
+    char[]                      password    = keyStorePassword.toCharArray();    //For KeyStore & Private Key
     KeyStore                    keyStore    = KeyStore.getInstance(keyStoreType);
                                 keyStore.load(new FileInputStream(keyStoreName), password);
     KeyStore.PasswordProtection keyPassword = new KeyStore.PasswordProtection(   password);
-    KeyStore.PrivateKeyEntry    keyPair     = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keyAlias, keyPassword);
+    KeyStore.PrivateKeyEntry    keyPair = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keyAlias,keyPassword);
     PrivateKey                  privateKey  = keyPair.getPrivateKey();
 
     //RETURN PRIVATE KEY
