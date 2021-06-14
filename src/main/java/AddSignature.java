@@ -29,7 +29,7 @@ public class AddSignature {
 
     //SIGN DOCUMENT
     Document      document = XMLUtil.readXMLFromFile(fileXMLInput);
-    XMLUtil.signDocument (document, privateKey, "Person", "data", DigestMethod.SHA1, SignatureMethod.RSA_SHA1);
+    XMLUtil.signDocument (document, privateKey, "Person", "#data", DigestMethod.SHA1, SignatureMethod.RSA_SHA1);
     XMLUtil.saveXMLToFile(document, fileXMLSigned);
   }
 
