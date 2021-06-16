@@ -15,8 +15,8 @@ public class AddSignature {
   static String keyAlias         = "clientkeys1";
 
   //XML FILES
-  static String fileXMLInput     = "src/main/resources/Person.xml";
-  static String fileXMLSigned    = "src/main/resources/PersonSigned.xml";
+  static String fileXMLInput     = "src/main/resources/Person2.xml";
+  static String fileXMLSigned    = "src/main/resources/Person2Signed.xml";
 
   //================================================================================
   // MAIN

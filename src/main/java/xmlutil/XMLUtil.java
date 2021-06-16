@@ -99,7 +99,7 @@ public class XMLUtil {
     );
 
     //PREPARE SIGN CONTEXT
-    DOMSignContext domSignContext = new DOMSignContext(key, document.getDocumentElement());
+    DOMSignContext domSignContext = new DOMSignContext(key, document.getElementsByTagName(elementName).item(0));
 
     //FIX IF referenceURI POINTS TO Id ATTRIBUTE
     if (!referenceURI.equals("") ) {
