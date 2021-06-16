@@ -9,14 +9,14 @@ import java.security.PrivateKey;
 public class AddSignature {
 
   //KEY STORE
-  static String keyStoreName     = "src/main/resources/ClientKeyStore.jks";
+  static String keyStoreName     = "/ClientKeyStore.jks";
   static String keyStorePassword = "mypassword";
   static String keyStoreType     = "JKS";
   static String keyAlias         = "clientkeys1";
 
   //XML FILES
-  static String fileXMLInput     = "src/main/resources/Person.xml";
-  static String fileXMLSigned    = "src/main/resources/PersonSigned.xml";
+  static String fileXMLInput     = "/Person.xml";
+  static String fileXMLSigned    = "PersonSigned.xml";
 
   //================================================================================
   // MAIN
