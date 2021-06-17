@@ -34,7 +34,7 @@ public class XMLUtil {
     //READ DOCUMENT FROM FILE
     DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
                            documentFactory.setNamespaceAware(true);
-    InputStream            inputStream     = XMLUtil.class.getResourceAsStream(fileName);
+    InputStream            inputStream     = XMLUtil.class.getResourceAsStream("/Person.xml");
     Document               document        = documentFactory.newDocumentBuilder().parse(inputStream);
 
     //RETURN DOCUMENT
@@ -46,7 +46,7 @@ public class XMLUtil {
   // SAVE XML TO FILE
   //================================================================================
   public static void saveXMLToFile(Document document, String fileName) throws Exception {
-    OutputStream       outputStream       = new FileOutputStream(fileName);
+    OutputStream       outputStream       = new FileOutputStream("PersonSigned.xml");
     TransformerFactory transformerFactory = TransformerFactory.newInstance();
     Transformer        transformer        = transformerFactory.newTransformer();
                        transformer.transform(new DOMSource(document), new StreamResult(outputStream));
@@ -56,7 +56,7 @@ public class XMLUtil {
   // GET PRIVATE KEY PAIR
   //================================================================================
   public static KeyStore.PrivateKeyEntry getPrivateKeyPair(
-    String keyStoreName,        //"/ClientKeyStore.jks"
+    String keyStoreName,        //"src/main/resources/ClientKeyStore.jks"
     String keyStorePassword,    //"mypassword";
     String keyStoreType,        //"JKS"
     String keyAlias             //"clientkeys1"
@@ -68,7 +68,7 @@ public class XMLUtil {
     KeyStore                    keyStore    = KeyStore.getInstance(keyStoreType);
                                 keyStore.load(inputStream, password);
     KeyStore.PasswordProtection keyPassword = new KeyStore.PasswordProtection(password);
-    KeyStore.PrivateKeyEntry    keyPair =(KeyStore.PrivateKeyEntry) keyStore.getEntry(keyAlias, keyPassword);
+    KeyStore.PrivateKeyEntry    keyPair = (KeyStore.PrivateKeyEntry) keyStore.getEntry(keyAlias, keyPassword);
 
     //RETURN KEY PAIR
     return keyPair;
@@ -82,8 +82,8 @@ public class XMLUtil {
   // <Person Id="data">
   public static void signDocument (
     Document   document,        //RETURN VALUE
-    Key        key,             //Key used to sign XML Element
-    String     elementToSign,   //"Person"     Element to Sign
+    Key        key,
+    String     elementName,     //"Person"      FIX
     String     referenceURI,    //"#data"
     String     digestMethod,    //DigestMethod.SHA1
     String     signatureMethod  //SignatureMethod.RSA_SHA1
@@ -91,7 +91,7 @@ public class XMLUtil {
 
     //CREATE REFERENCE
     XMLSignatureFactory factory   = XMLSignatureFactory.getInstance("DOM");
-    Reference           reference = factory.newReference(
+    Reference reference = factory.newReference(
       referenceURI,
       factory.newDigestMethod(digestMethod, null),
       Collections.singletonList(factory.newTransform(Transform.ENVELOPED, (TransformParameterSpec) null)),
@@ -106,17 +106,17 @@ public class XMLUtil {
     );
 
     //PREPARE SIGN CONTEXT
-    DOMSignContext domSignContext = new DOMSignContext(key, document.getElementsByTagName(elementToSign).item(0));
+    DOMSignContext domSignContext = new DOMSignContext(key, document.getElementsByTagName(elementName).item(0));
 
     //FIX IF referenceURI POINTS TO Id ATTRIBUTE
     if (!referenceURI.equals("") ) {
-      Element element = (Element) document.getElementsByTagName(elementToSign).item(0);
+      Element element = (Element) document.getElementsByTagName(elementName).item(0);
       domSignContext.setIdAttributeNS(element, null, "Id");
     }
 
     //SIGN DOCUMENT
-    XMLSignature signature = factory.newXMLSignature(signedInfo, null);
-                 signature.sign(domSignContext);
+    XMLSignature   signature = factory.newXMLSignature(signedInfo, null);
+                   signature.sign(domSignContext);
 
   }
 
