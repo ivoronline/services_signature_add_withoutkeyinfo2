@@ -46,7 +46,7 @@ public class XMLUtil {
   // SAVE XML TO FILE
   //================================================================================
   public static void saveXMLToFile(Document document, String fileName) throws Exception {
-    OutputStream       outputStream       = new FileOutputStream("PersonSigned.xml");
+    OutputStream       outputStream       = new FileOutputStream(fileName);
     TransformerFactory transformerFactory = TransformerFactory.newInstance();
     Transformer        transformer        = transformerFactory.newTransformer();
                        transformer.transform(new DOMSource(document), new StreamResult(outputStream));
@@ -56,7 +56,7 @@ public class XMLUtil {
   // GET PRIVATE KEY PAIR
   //================================================================================
   public static KeyStore.PrivateKeyEntry getPrivateKeyPair(
-    String keyStoreName,        //"src/main/resources/ClientKeyStore.jks"
+    String keyStoreName,        //"/ClientKeyStore.jks"
     String keyStorePassword,    //"mypassword";
     String keyStoreType,        //"JKS"
     String keyAlias             //"clientkeys1"
