@@ -28,8 +28,10 @@ public class UtilSignature {
     String     signatureMethod  //SignatureMethod.RSA_SHA1
   ) throws Exception {
 
-    //CREATE REFERENCE
+    //CREATE SIGNATURE FACTORY
     XMLSignatureFactory factory   = XMLSignatureFactory.getInstance("DOM");
+
+    //GET REFERENCE
     Reference reference = factory.newReference(
       referenceURI,
       factory.newDigestMethod(digestMethod, null),
