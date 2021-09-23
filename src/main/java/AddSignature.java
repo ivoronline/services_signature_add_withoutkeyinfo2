@@ -26,7 +26,7 @@ public class AddSignature {
     PrivateKey               privateKey = keyPair.getPrivateKey();
 
     //SIGN DOCUMENT
-    Document      document = UtilXML.fileToDocument(fileXMLInput);
+    Document document = UtilXML.fileToDocument(fileXMLInput);
     UtilSignature.signDocument (document, privateKey, "Person", "#data", DigestMethod.SHA1, SignatureMethod.RSA_SHA1);
     UtilXML.documentToFile(fileXMLSigned, document);
   }
